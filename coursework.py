@@ -2,6 +2,9 @@
 #Date : 25th Feb 2025
 
 #a program to store tasks, including details like task name, description, priority, and due date.
+import re
+
+
 tasks = []
 def main():
 
@@ -65,18 +68,24 @@ def create_task():
     print("\n       Create a task\n")
 
     task_name = input("Enter the task name          : ")
+    for task in tasks:
+        if task["name"] == task_name:
+            print("\nTask name already exists")
+            return
     task_description = input("Enter the task description   : ")
     task_priority = input("Enter the task priority      : ")
     task_due_date = input("Enter the task due date      : ")
 
-    task = {            "name": task_name,
-                        "description": task_description,
-                        "priority": task_priority,
-                        "due_date": task_due_date
-                        }
+
+
+    task = {
+        "name": task_name,
+        "description": task_description,
+        "priority": task_priority,
+        "due_date": task_due_date
+    }
 
     tasks.append(task)
-    print(task)
     print("\nTask created successfully")
 
     while True:
@@ -88,7 +97,7 @@ def create_task():
         else:
             print("Invalid input. Please enter a valid response (yes/no)")
             continue
-        break
+
 
 
 #-------Read a Task Function----------------Read a Task Function----------------Read a Task Function----------------Read a Task Function---------
@@ -115,7 +124,7 @@ def read_task():
         else:
             print("Invalid input. Please enter a valid response (yes/no)")
             continue
-        break
+
 
 
 #-------Update a Task Function----------------Update a Task Function----------------Update a Task Function----------------Update a Task Function---------
@@ -130,22 +139,24 @@ def update_task():
             print(f"Priority    : {task['priority']}")
             print(f"Due Date    : {task['due_date']}")
 
-        choice = input("\nDo you want to update this task? (yes/no) : ")
-        while True:
-            if choice.lower() == "yes":
-                task["description"] = input("\nEnter the task description   : ")
-                task["priority"] = input("Enter the task priority      : ")
-                task["due_date"] = input("Enter the task due date      : ")
-                print("\nTask updated successfully")
-            elif choice.lower() == "no":
+            while True:
+                choice = input("\nDo you want to update this task? (yes/no) : ")
+                if choice.lower() == "yes":
+                    print("\nPress Enter to skip an update field")
+                    task["description"] = input("\nEnter the task description   : ") or task["description"]  #to skip if the user press "Enter"
+                    task["priority"] = input("Enter the task priority      : ") or task["priority"]
+                    task["due_date"] = input("Enter the task due date      : ") or task["due_date"]
+                    print("\nTask updated successfully")
+                    break
+                elif choice.lower() == "no":
                     print("\nTask not updated")
-            else:
-                print("Invalid input. Please enter a valid response (yes/no)")
-                continue
-            break
-        break
-    else:
-        print("Task not found")
+                    break
+                else:
+                    print("Invalid input. Please enter a valid response (yes/no)")
+                    continue
+
+        else:
+            print("Task not found")
 
     while True:
         choice = input("\nDo you want to update another task? (yes/no): ")
@@ -156,7 +167,7 @@ def update_task():
         else:
             print("Invalid input. Please enter a valid response (yes/no)")
             continue
-        break
+
 
 #-------Delete a Task Function----------------Delete a Task Function----------------Delete a Task Function---------
 def delete_task():
@@ -178,8 +189,6 @@ def delete_task():
         else:
             print("Task not found")
 
-            print("\nTask deleted successfully")
-
     while True:
         choice = input("\nDo you want to delete another task? (yes/no): ")
         if choice.lower() == "yes":
@@ -189,7 +198,7 @@ def delete_task():
         else:
             print("Invalid input. Please enter a valid response (yes/no)")
             continue
-        break
+
 main()
 
 
@@ -198,3 +207,7 @@ main()
 
 
 
+#same input error handling
+#date validation
+#task name uppercase and whitespace validation
+#press enter to skip in update() **
