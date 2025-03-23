@@ -2,9 +2,6 @@
 #Date : 25th Feb 2025
 
 #a program to store tasks, including details like task name, description, priority, and due date.
-import re
-
-
 tasks = []
 def main():
 
@@ -50,6 +47,7 @@ def main():
         if choice == 5:
             x=input("\nAre you sure you want to exit the program? (yes/no): ")
             if x.lower() == "yes":
+                print("\nGoodbye")
                 exit()
             elif x.lower() == "no":
                 main()
@@ -67,7 +65,7 @@ def main():
 def create_task():
     print("\n       Create a task\n")
 
-    task_name = input("Enter the task name          : ")
+    task_name = input("Enter the task name          : ")   #Handles an input error when the user enters a task name that already exists
     for task in tasks:
         if task["name"] == task_name:
             print("\nTask name already exists")
@@ -76,11 +74,9 @@ def create_task():
     task_priority = input("Enter the task priority      : ")
     task_due_date = input("Enter the task due date      : ")
 
-
-
     task = {
         "name": task_name,
-        "description": task_description,
+        "description": task_description,    #A dictionary to store the relavant data
         "priority": task_priority,
         "due_date": task_due_date
     }
@@ -182,12 +178,18 @@ def delete_task():
             print(f"Due Date    : {task["due_date"]}\n")
             choice = input("Do you want to delete this task? (yes/no) : ")
             if choice.lower() == "yes":
-                del task
+                tasks.remove(task)
                 print("\nTask deleted successfully")
+                break
             elif choice.lower() == "no":
                 print("\nTask not deleted")
+                break
+            else:
+                    print("Invalid input. Please enter a valid response (yes/no)")
+                    continue
         else:
             print("Task not found")
+            break
 
     while True:
         choice = input("\nDo you want to delete another task? (yes/no): ")
@@ -207,7 +209,7 @@ main()
 
 
 
-#same input error handling
+#same input error handling**
 #date validation
 #task name uppercase and whitespace validation
 #press enter to skip in update() **
