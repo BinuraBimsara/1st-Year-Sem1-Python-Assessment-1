@@ -5,12 +5,12 @@
 
 tasks = []
 def add_task():
-    print("\nCreate a task\n")
+    print("\n       Add a task\n")
     task_name = input("Enter the task name: ")
     for task in tasks:
         if task["name"] == task_name: #validation to check if the task name already exists
             print("\nTask name already exists")
-            return
+            main()
     task_description = input("Enter the task description: ")
     while True:
         task_priority = input("Enter the task priority (high/medium/low): ")
@@ -42,7 +42,7 @@ def add_task():
 
 #-------Read a Task Function----------------Read a Task Function----------------Read a Task Function----------------Read a Task Function---------
 def view_task():
-    print("\n       Read a task\n")
+    print("\n       View a task\n")
     task_name = input("Enter the task name: ")
     for task in tasks:
         if task["name"] == task_name:
@@ -128,6 +128,7 @@ def delete_task():
                 break
             else:
                     print("Invalid input. Please enter a valid response (yes/no)")
+                    break
     else:
         print("Task not found")
     while True:
@@ -163,7 +164,6 @@ def save_tasks():
         for task in tasks:
             f.write(f"{task['name']}|{task['description']}|{task['priority']}|{task['due_date']}\n")
 
-
 def main():
     load_tasks()
     ascii_art = """
@@ -175,7 +175,6 @@ def main():
                                                    |___/
     """
     print(ascii_art)
-
     print("Select an Option ")
     print()
     print("1. Add a task")
@@ -190,7 +189,7 @@ def main():
             choice = int(input("Enter your choice : "))
 
         except ValueError:
-            print("Invalid input. Please enter a number  ")
+            print("Invalid input. Please enter a valid number  ")
             print()
             continue
         else:
@@ -198,25 +197,24 @@ def main():
 
     if choice == 1:
         add_task()
-    if choice == 2:
+    elif choice == 2:
         view_task()
-    if choice == 3:
+    elif choice == 3:
         update_task()
-    if choice == 4:
+    elif choice == 4:
         delete_task()
-    while True:
-        if choice == 5:
-            x=input("\nAre you sure you want to exit the program? (yes/no): ")
-            if x.lower() == "yes":
-                print("\nGoodbye")
-                exit()
-            elif x.lower() == "no":
-                main()
-            else:
-                print("\nInvalid input. Please enter a valid response (yes/no)")
-                continue
-            break
-    if choice > 5:
+    elif choice == 5:
+        while True:
+                x=input("\nAre you sure you want to exit the program? (yes/no): ")
+                if x.lower() == "yes":
+                    print("\nGoodbye")
+                    exit()
+                elif x.lower() == "no":
+                    main()
+                else:
+                    print("\nInvalid input. Please enter a valid response (yes/no)")  
+                break
+    else:
         print("Invalid input. Please enter a number between 1 and 5")
         print()
         main()
