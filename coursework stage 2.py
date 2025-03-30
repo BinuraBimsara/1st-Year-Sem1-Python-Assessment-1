@@ -20,7 +20,7 @@ def add_task():
         break
     task_due_date = input("Enter the task due date (YYYY-MM-DD): ")
 
-    task = {
+    task = {                 #Stores all the user data
         "name": task_name,
         "description": task_description,
         "priority": task_priority,
@@ -40,10 +40,10 @@ def add_task():
             print("Invalid input. Please enter a valid response (yes/no)")
             continue
 
-#-------Read a Task Function----------------Read a Task Function----------------Read a Task Function----------------Read a Task Function---------
+#-------View a Task Function----------------View a Task Function----------------View a Task Function----------------View a Task Function---------
 def view_task():
     print("\n       View a task\n")
-    task_name = input("Enter the task name: ")
+    task_name = input("Enter the task name: ") #to check if the task name exists
     for task in tasks:
         if task["name"] == task_name:
             print("\nTask Found")
@@ -70,7 +70,7 @@ def update_task():
     print("\n       Update a task\n")
     task_name = input("Enter the task name you want to update : ")
     for task in tasks:
-        if task["name"] == task_name:
+        if task["name"] == task_name:   #to check if the task name exists and displays it to the user for updating
             print("\nTask Found")
             print(f"\nTask name   : {task['name']}")
             print(f"Description : {task['description']}")
@@ -111,7 +111,7 @@ def delete_task():
     print("\n       Delete a task\n")
     task_name = input("Enter the task name you want to delete : ")
     for task in tasks:
-        if task["name"] == task_name:
+        if task["name"] == task_name:   #checks if the task exists
             print("\nTask found \n")
             print(f"\nTask name   : {task['name']}")
             print(f"Description : {task["description"]}")
@@ -212,7 +212,7 @@ def main():
                 elif x.lower() == "no":
                     main()
                 else:
-                    print("\nInvalid input. Please enter a valid response (yes/no)")  
+                    print("\nInvalid input. Please enter a valid response (yes/no)")
                 break
     else:
         print("Invalid input. Please enter a number between 1 and 5")
