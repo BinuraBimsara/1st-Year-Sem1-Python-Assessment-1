@@ -1,12 +1,13 @@
 #Author : Binura
 #Date : 25th Feb 2025
 #a program to store tasks(including details like task name, description, priority, and due date), read tasks, update tasks and delete tasks.
+import enum
 import json
 tasks={}
 def add_task():
     print("\n       Add a task\n")
     task_name = input("Enter the task name: ")
-    if task_name in tasks:
+    if task_name.lower() in tasks:
         print("\nTask name already exists!")
         add_task()
     task_description = input("Enter the task description: ")
@@ -18,7 +19,7 @@ def add_task():
         break
     task_due_date = input("Enter the task due date (YYYY-MM-DD): ")
 
-    tasks[task_name] = {  # [task_name]is a unique identifier for each task
+    tasks[task_name.lower()] = {  # [task_name]is a unique identifier for each task
         "description": task_description,  #Stores all the user daat
         "priority": task_priority,
         "due_date": task_due_date
@@ -40,8 +41,8 @@ def add_task():
 def view_task():
     print("\n       View a task\n")
     task_name = input("Enter the task name: ")
-    if task_name in tasks:       #to check if the task name exists
-        task = tasks[task_name]  # Retrieve task details
+    if task_name.lower() in tasks:       #to check if the task name exists
+        task = tasks[task_name.lower()]  # Retrieve task details
         print("\nTask Found")
         print(f"\nTask Name   : {task_name}")
         print(f"Description : {task['description']}")
@@ -64,8 +65,8 @@ def view_task():
 def update_task():
     print("\n       Update a task\n")
     task_name = input("Enter the task name you want to update : ")
-    if task_name in tasks:       #to check if the task name exists
-        task = tasks[task_name]  # Retrieve task details
+    if task_name.lower() in tasks:       #to check if the task name exists
+        task = tasks[task_name.lower()]  # Retrieve task details
         print("\nTask Found")
         print(f"\nTask Name   : {task_name}")
         print(f"Description : {task['description']}")
@@ -76,7 +77,12 @@ def update_task():
             if choice.lower() == "yes":
                 print("\nPress Enter to skip an update field")
                 tasks[task_name]["description"] = input("Enter the task description : ") or tasks[task_name]["description"]  #to skip if the user press "Enter"
-                tasks[task_name]["priority"] = input("Enter task priority        : ") or tasks[task_name]["priority"]
+                while True:
+                    tasks[task_name]["priority"] = input("Enter task priority        : ") or tasks[task_name]["priority"]
+                    if tasks[task_name]["priority"].lower() not in ["high", "medium", "low"]:
+                        print("Invalid priority. Please enter a valid priority (high/medium/low)\n")  #Validating if the user inputs the correct priority
+                        continue
+                    break
                 tasks[task_name]["due_date"] = input("Enter task due date        : ") or tasks[task_name]["due_date"]
                 save_tasks()
                 print("\nTask updated successfully")
@@ -86,7 +92,7 @@ def update_task():
                 break
             else:
                 print("Invalid input. Please enter a valid response (yes/no)")
-    else: #Error
+    else:
         print("Task not found")
 
     while True:
@@ -103,8 +109,8 @@ def update_task():
 def delete_task():
     print("\n       Delete a task\n")
     task_name = input("Enter the task name you want to delete : ")
-    if task_name in tasks:       #to check if the task name exists
-        task = tasks[task_name]  # Retrieve task details
+    if task_name.lower() in tasks:       #to check if the task name exists
+        task = tasks[task_name.lower()]  # Retrieve task details
         print("\nTask Found")
         print(f"\nTask Name   : {task_name}")
         print(f"Description : {task['description']}")
@@ -120,7 +126,7 @@ def delete_task():
         else:
                 print("Invalid input. Please enter a valid response (yes/no)")
     else:
-        print("Task not found") #Error
+        print("Task not found")
 
     while True:
         choice = input("\nDo you want to delete another task? (yes/no): ")
@@ -134,7 +140,15 @@ def delete_task():
 
 def save_tasks():
     with open("data.json", "w") as file:
-        json.dump(tasks, file, indent=4)  # Write JSON to file
+        json.dump(tasks, file, indent = 4)  # Write JSON to file
+# def save_tasks():
+#     with open("data.json", "w") as file:
+#         file.write("[\n]")
+#         for i, task in enumerate(tasks):
+#             json.dump(tasks, file, separators =(",", ": "))  # Write JSON to file
+#             if i < len(tasks) - 1:
+#                 file.write(",\n")
+#         file.write("\n]")
 
 def load_tasks():
     """Loads tasks from a JSON file if it exists"""
