@@ -1,7 +1,6 @@
 #Author : Binura
 #Date : 25th Feb 2025
 #a program to store tasks(including details like task name, description, priority, and due date), read tasks, update tasks and delete tasks.
-import enum
 import json
 tasks={}
 def add_task():
@@ -77,12 +76,7 @@ def update_task():
             if choice.lower() == "yes":
                 print("\nPress Enter to skip an update field")
                 tasks[task_name]["description"] = input("Enter the task description : ") or tasks[task_name]["description"]  #to skip if the user press "Enter"
-                while True:
-                    tasks[task_name]["priority"] = input("Enter task priority        : ") or tasks[task_name]["priority"]
-                    if tasks[task_name]["priority"].lower() not in ["high", "medium", "low"]:
-                        print("Invalid priority. Please enter a valid priority (high/medium/low)\n")  #Validating if the user inputs the correct priority
-                        continue
-                    break
+                tasks[task_name]["priority"] = input("Enter task priority        : ") or tasks[task_name]["priority"]
                 tasks[task_name]["due_date"] = input("Enter task due date        : ") or tasks[task_name]["due_date"]
                 save_tasks()
                 print("\nTask updated successfully")
@@ -92,7 +86,7 @@ def update_task():
                 break
             else:
                 print("Invalid input. Please enter a valid response (yes/no)")
-    else:
+    else: #Error
         print("Task not found")
 
     while True:
@@ -118,7 +112,7 @@ def delete_task():
         print(f"Due Date    : {task['due_date']}")
         choice = input("Do you want to delete this task? (yes/no) : ")
         if choice.lower() == "yes":
-            del(tasks[task_name])
+            del(tasks[task_name.lower()])
             save_tasks()
             print("\nTask deleted successfully")
         elif choice.lower() == "no":
@@ -126,7 +120,7 @@ def delete_task():
         else:
                 print("Invalid input. Please enter a valid response (yes/no)")
     else:
-        print("Task not found")
+        print("Task not found") #Error
 
     while True:
         choice = input("\nDo you want to delete another task? (yes/no): ")
@@ -140,15 +134,7 @@ def delete_task():
 
 def save_tasks():
     with open("data.json", "w") as file:
-        json.dump(tasks, file, indent = 4)  # Write JSON to file
-# def save_tasks():
-#     with open("data.json", "w") as file:
-#         file.write("[\n]")
-#         for i, task in enumerate(tasks):
-#             json.dump(tasks, file, separators =(",", ": "))  # Write JSON to file
-#             if i < len(tasks) - 1:
-#                 file.write(",\n")
-#         file.write("\n]")
+        json.dump(tasks, file, indent=4)  # Write JSON to file
 
 def load_tasks():
     """Loads tasks from a JSON file if it exists"""

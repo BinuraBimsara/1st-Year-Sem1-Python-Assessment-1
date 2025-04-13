@@ -1,12 +1,17 @@
 {
     "task 1": {
-        "description": "3",
-        "priority": "medium",
-        "due_date": "5"
+        "description": "Eating",
+        "priority": "low",
+        "due_date": "2024-10-21"
     },
-    "1": {
-        "description": "1",
-        "priority": "2",
-        "due_date": "2"
+    "task 2": {
+        "description": "Sleep",
+        "priority": "high",
+        "due_date": "2025-12-02"
+    },
+    "task 3": {
+        "description": "run",
+        "priority": "medium",
+        "due_date": "2024-09-27"
     }
 }
