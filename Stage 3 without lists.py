@@ -75,9 +75,9 @@ def update_task():
             choice = input("\nDo you want to update this task? (yes/no) : ")
             if choice.lower() == "yes":
                 print("\nPress Enter to skip an update field")
-                tasks[task_name]["description"] = input("Enter the task description : ") or tasks[task_name]["description"]  #to skip if the user press "Enter"
-                tasks[task_name]["priority"] = input("Enter task priority        : ") or tasks[task_name]["priority"]
-                tasks[task_name]["due_date"] = input("Enter task due date        : ") or tasks[task_name]["due_date"]
+                tasks[task_name.lower()]["description"] = input("Enter the task description : ") or tasks[task_name]["description"]  #to skip if the user press "Enter"
+                tasks[task_name.lower()]["priority"] = input("Enter task priority        : ") or tasks[task_name]["priority"]
+                tasks[task_name.lower()]["due_date"] = input("Enter task due date        : ") or tasks[task_name]["due_date"]
                 save_tasks()
                 print("\nTask updated successfully")
                 break

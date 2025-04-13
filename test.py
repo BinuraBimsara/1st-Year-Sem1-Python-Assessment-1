@@ -58,6 +58,7 @@ class TaskManagerGUI:
         self.task_manager = TaskManager()
         self.sort_order = {
             'name': True,
+            'description': True,
             'priority': True,
             'due_date': True
         }
@@ -66,22 +67,22 @@ class TaskManagerGUI:
 
     def setup_gui(self):
         # Search/filter fields
-        tk.Label(self.root, text="Name:").grid(row=0, column=0, padx=5, pady=5)
+        tk.Label(self.root, text="Name:", font=("Poppins", 12)).grid(row=0, column=0, padx=5, pady=5)
         self.name_entry = tk.Entry(self.root)
         self.name_entry.grid(row=0, column=1, padx=5, pady=5)
 
-        tk.Label(self.root, text="Priority:").grid(row=0, column=2, padx=5, pady=5)
+        tk.Label(self.root, text="Priority:", font=("Poppins", 12)).grid(row=0, column=2, padx=5, pady=5)
         self.priority_var = tk.StringVar()
         self.priority_dropdown = ttk.Combobox(self.root, textvariable=self.priority_var)
         self.priority_dropdown['values'] = ("All", "High", "Medium", "Low")
         self.priority_dropdown.current(0)
         self.priority_dropdown.grid(row=0, column=3, padx=5, pady=5)
 
-        tk.Label(self.root, text="Due Date (YYYY-MM-DD):").grid(row=0, column=4, padx=5, pady=5)
+        tk.Label(self.root, text="Due Date (YYYY-MM-DD):", font=("Poppins", 12)).grid(row=0, column=4, padx=5, pady=5)
         self.due_date_entry = tk.Entry(self.root)
         self.due_date_entry.grid(row=0, column=5, padx=5, pady=5)
 
-        self.filter_button = tk.Button(self.root, text="Filter", command=self.apply_filter)
+        self.filter_button = tk.Button(self.root, text="Filter", command=self.apply_filter, font=("Poppins", 10, "bold"))
         self.filter_button.grid(row=0, column=6, padx=5, pady=5)
 
         # Treeview
