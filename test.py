@@ -2,7 +2,7 @@ import json
 import tkinter as tk
 from tkinter import ttk
 
-# Define the Task class to represent each task
+# Task class
 class Task:
     def __init__(self, name, description, priority, due_date):
         self.name = name
@@ -12,14 +12,15 @@ class Task:
 
     def to_dict(self):
         return {
+            'name': self.name,
             'description': self.description,
             'priority': self.priority,
             'due_date': self.due_date
         }
 
-# Define the TaskManager class to handle task operations
+# TaskManager class
 class TaskManager:
-    def __init__(self, json_file='data.json'):
+    def __init__(self, json_file='tasks.json'):
         self.json_file = json_file
         self.tasks = []
         self.load_tasks_from_json()
@@ -29,8 +30,8 @@ class TaskManager:
             with open(self.json_file, 'r') as f:
                 tasks_data = json.load(f)
                 self.tasks = [
-                    Task(name, data['description'], data['priority'], data['due_date'])
-                    for name, data in tasks_data.items()
+                    Task(data['name'], data['description'], data['priority'], data['due_date'])
+                    for data in tasks_data
                 ]
         except (FileNotFoundError, json.JSONDecodeError, KeyError) as e:
             print(f"Error loading tasks: {e}")
@@ -49,8 +50,7 @@ class TaskManager:
     def sort_tasks(self, sort_key='name', reverse=False):
         self.tasks.sort(key=lambda task: getattr(task, sort_key), reverse=reverse)
 
-
-# Define the TaskManagerGUI class to create the Tkinter interface
+# TaskManagerGUI class
 class TaskManagerGUI:
     def __init__(self, root):
         self.root = root
@@ -66,9 +66,9 @@ class TaskManagerGUI:
         self.populate_tree()
 
     def setup_gui(self):
-        # Search/filter fields
+        # Filter controls
         tk.Label(self.root, text="Name:", font=("Poppins", 12)).grid(row=0, column=0, padx=5, pady=5)
-        self.name_entry = tk.Entry(self.root)
+        self.name_entry = tk.Entry(self.root, font=("Poppins", 12))
         self.name_entry.grid(row=0, column=1, padx=5, pady=5)
 
         tk.Label(self.root, text="Priority:", font=("Poppins", 12)).grid(row=0, column=2, padx=5, pady=5)
@@ -82,10 +82,10 @@ class TaskManagerGUI:
         self.due_date_entry = tk.Entry(self.root)
         self.due_date_entry.grid(row=0, column=5, padx=5, pady=5)
 
-        self.filter_button = tk.Button(self.root, text="Filter", command=self.apply_filter, font=("Poppins", 10, "bold"))
+        self.filter_button = tk.Button(self.root, text="Filter", command=self.apply_filter, font=("Poppins", 10,"bold"))
         self.filter_button.grid(row=0, column=6, padx=5, pady=5)
 
-        # Treeview
+        # Treeview setup
         columns = ('name', 'description', 'priority', 'due_date')
         self.tree = ttk.Treeview(self.root, columns=columns, show='headings')
         for col in columns:
@@ -112,13 +112,12 @@ class TaskManagerGUI:
         self.populate_tree(filtered_tasks)
 
     def sort_tasks(self, sort_key):
-        reverse = not self.sort_order[sort_key]
+        reverse = not self.sort_order.get(sort_key, True)
         self.task_manager.sort_tasks(sort_key, reverse=reverse)
         self.populate_tree()
         self.sort_order[sort_key] = reverse
 
-
-# Main program execution
+# Main program
 if __name__ == "__main__":
     root = tk.Tk()
     app = TaskManagerGUI(root)

@@ -3,12 +3,13 @@
 
 #a program to store tasks(including details like task name, description, priority, and due date), read tasks, update tasks and delete tasks.
 import json
-tasks = []
+
+tasks = []  # List to store tasks
 def add_task():
     print("\n       Add a task\n")
     task_name = input("Enter the task name: ")
     for task in tasks:
-        if task["name".lower()] == task_name: #validation to check if the task name already exists
+        if task["name"] == task_name.lower(): #validation to check if the task name already exists
             print("\nTask name already exists")
             main()
     task_description = input("Enter the task description: ")
@@ -26,7 +27,7 @@ def add_task():
         "priority": task_priority,
         "due_date": task_due_date
     }
-    tasks.append(task)
+    tasks.append(task) #adds a task dictionary to the list
     save_tasks()
     print("\nTask created successfully!")
 
@@ -82,7 +83,12 @@ def update_task():
                 if choice.lower() == "yes":
                     print("\nPress Enter to skip an update field")
                     task["description"] = input("\nEnter the task description   : ") or task["description"]  #to skip if the user press "Enter"
-                    task["priority"] = input("Enter the task priority      : ") or task["priority"]
+                    while True:
+                        task["priority"] = input("Enter the task priority (high/medium/low) : ") or task["priority"]
+                        if task["priority"].lower() not in ["high", "medium", "low"]:
+                            print("Invalid priority. Please enter a valid priority (high/medium/low)")
+                            continue
+                        break
                     task["due_date"] = input("Enter the task due date      : ") or task["due_date"]
 
                     save_tasks()
